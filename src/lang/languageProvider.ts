@@ -28,22 +28,20 @@ export const translateApiError = (
   if (errorResponse.success) return null;
   if (!errorResponse.error) return null;
 
-  const { code_messages, validation } = langProvider;
+  const { validation } = langProvider;
   const { error } = errorResponse;
 
   if (error.name === "ValidationException") {
     const keys = Object.keys(error.messages);
     const firstError = keys[0];
     const firstErrorMessage = error.messages[firstError][0];
-    if (!validation[firstError]) return null; // check if the validation key is exist
 
-    const message = validation[firstError][firstErrorMessage];
-    if (!message) return null; // check if the validation message is exist
+    let message = firstErrorMessage;
+    if (validation[firstError] && validation[firstError][firstErrorMessage]) {
+      message = validation[firstError][firstErrorMessage];
+    }
     return message;
   }
-
-  const message = code_messages[error.code];
-  if (message) return message;
 
   if (errorResponse.message) return errorResponse.message;
   return null;
