@@ -71,7 +71,7 @@ function LoginForm({ handleLogin, className, ...rest }: LoginFormProps) {
           alt="Codev logo"
           className="w-8 h-8 md:w-12 md:h-12"
         />
-        <h1 className="font-title font-bold text-center mb-6">Co-Dev Login</h1>
+        <h1 className="font-title font-bold text-center mb-6">InstaCode Login</h1>
       </div>
       <Form {...form}>
         <form

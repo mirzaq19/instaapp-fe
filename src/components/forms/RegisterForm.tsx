@@ -93,7 +93,7 @@ const RegisterForm = ({ handleRegister, className, ...rest }: RegisterInputProps
           className="w-8 h-8 md:w-12 md:h-12"
         />
         <h1 className="font-title font-bold text-center mb-6">
-          Register to InstaApp
+          Register to InstaCode
         </h1>
       </div>
       <Form {...form}>
