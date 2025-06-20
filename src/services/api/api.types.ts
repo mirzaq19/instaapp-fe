@@ -23,3 +23,13 @@ export type BaseApiResponse<T = undefined> =
             messages: Record<string, string[]>;
           };
     };
+
+export type BasePagination<T> = {
+  data: T[];
+  meta: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+};

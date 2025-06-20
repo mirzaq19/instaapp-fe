@@ -1,0 +1,111 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { EllipsisVertical, Heart, MessageCircle, Send, Trash } from 'lucide-react'
+import type { Post } from '@/entities/post.types'
+import { cn } from '@/lib/utils'
+import React from 'react'
+
+type PostCardProps = {
+  post: Post
+} & React.HTMLAttributes<HTMLDivElement>
+
+const PostCard = ({ post, className, ...rest }: PostCardProps) => {
+  const [isLiked, setIsLiked] = React.useState<boolean>(post.is_liked || false)
+  return (
+    <Card className={cn('rounded-xl py-4', className)} {...rest}>
+      <div className='flex items-center gap-2 px-4'>
+        <Avatar className='h-12 w-12'>
+          <AvatarImage src={`https://ui-avatars.com/api/?name=${post.user.username}&background=random`} />
+          <AvatarFallback>{post.user.username[0]}</AvatarFallback>
+        </Avatar>
+        <CardHeader className='w-full px-0'>
+          <CardTitle className='text-lg font-semibold'>{post.user.name}</CardTitle>
+          <CardDescription className='text-sm text-muted-foreground'>@{post.user.username}</CardDescription>
+          <CardAction>
+            <PostCardDropdown />
+          </CardAction>
+        </CardHeader>
+      </div>
+      <CardContent className='px-0'>
+        <div>
+          <Carousel className="w-full">
+            <CarouselContent>
+              {post.images.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div>
+                    <img
+                      src={image.image_url}
+                      alt={`Post image ${index + 1}`}
+                      className="w-full max-h-[700px] object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="cursor-pointer absolute left-2 top-1/2 -translate-y-1/2">
+              <Button variant='outline' size='icon'>
+                <EllipsisVertical className='h-4 w-4' />
+              </Button>
+            </CarouselPrevious>
+            <CarouselNext className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2">
+              <Button variant='outline' size='icon'>
+                <EllipsisVertical className='h-4 w-4' />
+              </Button>
+            </CarouselNext>
+          </Carousel>
+        </div>
+        <div className='px-4 py-2'>
+          <div className='mt-1 -ml-1.5 flex items-center gap-1'>
+            <Button variant="ghost" size="icon" className='cursor-pointer' onClick={() => setIsLiked(!isLiked)}>
+              <Heart className={`!size-6 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
+            </Button>
+            <Button variant="ghost" size="icon" className='cursor-pointer'>
+              <MessageCircle className="!size-6" />
+            </Button>
+            <Button variant="ghost" size="icon" className='cursor-pointer'>
+              <Send className="!size-6" />
+            </Button>
+          </div>
+          <p className='mt-1 text-muted-foreground font-medium text-sm'>
+            {post.likes_count} {post.likes_count === 1 ? 'like' : 'likes'}
+          </p>
+          <p className='mt-2 text-base text-gray-800'><span className='font-medium cursor-pointer'>{post.user.username}</span> {post.content}</p>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default PostCard
+
+const PostCardDropdown = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant='outline' size='icon'>
+          <EllipsisVertical className='h-4 w-4' />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end'>
+        <DropdownMenuItem className="cursor-pointer focus:bg-red-50 focus:text-destructive group">
+          <Trash className='group-[focus]:text-destructive' />
+          Delete Post
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
