@@ -11,7 +11,7 @@ const getPosts = async ({ page = 1 }: GetPostsPaginationRequest) => {
   const urlWithParams = url.addParams("/posts", {
     page,
   });
-  const response = await apiFetch(urlWithParams);
+  const response = await apiFetch(urlWithParams, {}, true);
   const responseJson = (await response.json()) as ApiGetPostsPaginationResponse;
 
   if (!response.ok || !responseJson.success) {
