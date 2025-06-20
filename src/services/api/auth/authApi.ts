@@ -1,7 +1,9 @@
 import ApplicationError from "@/exceptions/ApplicationError";
 import { translateApiError } from "@/lang/languageProvider";
 import apiConfig from "@/services/api/apiConfig";
+import apiFetch from "@/services/api/apiFetch";
 import type {
+  ApiGetMeResponse,
   ApiLoginResponse,
   ApiRegisterReponse,
   LoginUserRequest,
@@ -66,7 +68,24 @@ const login = async (requestData: LoginUserRequest) => {
   }
 };
 
+const getMe = async () => {
+  const response = await apiFetch("/auth/me");
+  const responseJson = (await response.json()) as ApiGetMeResponse;
+
+  if (!response.ok || !responseJson.success) {
+    let message = translateApiError(responseJson) || "Failed to get user data";
+
+    if (response.status === 401)
+      message = "Session expired, please login again";
+    throw new ApplicationError(message);
+  }
+
+  const { data } = responseJson;
+  return data;
+};
+
 export default {
   register,
   login,
+  getMe,
 };

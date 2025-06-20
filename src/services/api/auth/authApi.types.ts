@@ -25,3 +25,9 @@ type LoginUser = {
 };
 
 export type ApiLoginResponse = BaseApiResponse<LoginUser>;
+
+export type GetMe = {
+  user: User;
+};
+
+export type ApiGetMeResponse = BaseApiResponse<GetMe>;

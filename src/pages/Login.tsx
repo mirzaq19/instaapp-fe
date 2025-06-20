@@ -1,6 +1,6 @@
+import { useAppDispatch } from "@/app/hooks";
+import { asyncLoginUser } from "@/app/thunks/authThunk";
 import LoginForm from "@/components/forms/LoginForm";
-import authApi from "@/services/api/auth/authApi";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
 type LoginData = {
@@ -9,28 +9,11 @@ type LoginData = {
 }
 
 const Login = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const handleLogin = async ({ email, password }: LoginData) => {
-    console.log('Login attempt with:', { email, password });
-
-    await toast
-      .promise(authApi.login({
-        email,
-        password,
-      }), {
-        loading: 'Logging in...',
-        success: 'Login successful!',
-        error: (error) => {
-          console.error('Login error:', error);
-          return error instanceof Error ? error.message : 'Login failed';
-        }
-      })
-      .then(() => {
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error.message);
-      })
+    const status = await dispatch(asyncLoginUser(email, password));
+    if (status) navigate('/');
   };
 
   return (
