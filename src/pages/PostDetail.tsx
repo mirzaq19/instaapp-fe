@@ -150,7 +150,7 @@ const PostDetail = () => {
           )}
 
           {!loading.comments && comments.length === 0 && (
-            <div className="text-center text-gray-500 mt-4">
+            <div className="mt-4 bg-white text-center text-gray-500 p-4 rounded-lg shadow">
               No comments yet. Be the first to comment!
             </div>
           )}
