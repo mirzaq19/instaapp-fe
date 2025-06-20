@@ -2,6 +2,7 @@ import AppContainer from '@/components/layout/AppContainer'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
+import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
         </Routes>
+        <Toaster />
       </AppContainer>
     </div>
   )
