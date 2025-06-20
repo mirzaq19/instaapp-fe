@@ -1,4 +1,4 @@
-import { login, populate, stopLoading } from "@/app/slices/authSlice";
+import { login, logout, populate, stopLoading } from "@/app/slices/authSlice";
 import type { AppDispatch } from "@/app/store";
 import authApi from "@/services/api/auth/authApi";
 import auth from "@/services/localstorage/auth";
@@ -23,3 +23,15 @@ export const asyncLoginUser =
     }
     return status;
   };
+
+export const asyncLogoutUser = () => async (dispatch: AppDispatch) => {
+  const toastId = toast.loading("Logging out...");
+  try {
+    auth.removeToken();
+    dispatch(logout());
+    toast.success("Logout successful", { id: toastId });
+  } catch (error) {
+    console.error("Logout failed:", (error as Error).message);
+    toast.error(`Logout failed: ${(error as Error).message}`, { id: toastId });
+  }
+};
