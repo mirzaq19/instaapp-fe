@@ -139,9 +139,9 @@ const PostCardDropdown = ({ postId, onDeletePost }: PostCardDropdownProps) => {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Logout</DialogTitle>
+            <DialogTitle>Delete Post</DialogTitle>
             <DialogDescription>
-              Are you want to logout on SSO too?
+              Are you want to delete this post? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-y-2">
