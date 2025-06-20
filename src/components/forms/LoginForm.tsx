@@ -26,13 +26,17 @@ const formSchema = z.object({
     .string()
     .min(1, {
       message: 'You must enter an email address.',
-    })
-    .email({
-      message: 'Please enter a valid email address',
     }),
   password: z.string().min(1, {
     message: 'You must enter a password.',
   }),
+}).refine((data) => {
+  // Check if email is a valid email address or username
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(data.email) || data.email.length >= 4;
+}, {
+  path: ['email'],
+  message: 'Please enter a valid email address or username.',
 });
 
 function LoginForm({ handleLogin, className, ...rest }: LoginFormProps) {
@@ -79,9 +83,9 @@ function LoginForm({ handleLogin, className, ...rest }: LoginFormProps) {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Email / Username</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="email" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormMessage className="font-normal text-sm" />
               </FormItem>

@@ -14,3 +14,14 @@ type RegisterUser = {
 };
 
 export type ApiRegisterReponse = BaseApiResponse<RegisterUser>;
+
+export type LoginUserRequest = {
+  email: string;
+  password: string;
+};
+
+type LoginUser = {
+  token: string;
+};
+
+export type ApiLoginResponse = BaseApiResponse<LoginUser>;
