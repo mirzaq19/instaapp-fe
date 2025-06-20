@@ -6,6 +6,7 @@ import type {
   ApiGetPostsPaginationResponse,
   GetPostsPaginationRequest,
 } from "@/services/api/post/postApi.types";
+import type { BaseApiResponse } from "../api.types";
 
 const getPosts = async ({ page = 1 }: GetPostsPaginationRequest) => {
   const urlWithParams = url.addParams("/posts", {
@@ -23,6 +24,21 @@ const getPosts = async ({ page = 1 }: GetPostsPaginationRequest) => {
   return data;
 };
 
+const likePost = async (postId: number) => {
+  const response = await apiFetch(`/posts/${postId}/like`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    const responseJson = (await response.json()) as BaseApiResponse;
+    const message =  translateApiError(responseJson) || "Failed to like post";
+    throw new ApplicationError(message);
+  }
+
+  return true;
+}
+
 export default {
   getPosts,
+  likePost,
 };

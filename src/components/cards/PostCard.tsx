@@ -18,13 +18,29 @@ import { EllipsisVertical, Heart, MessageCircle, Send, Trash } from 'lucide-reac
 import type { Post } from '@/entities/post.types'
 import { cn } from '@/lib/utils'
 import React from 'react'
+import { useAppSelector } from '@/app/hooks'
+import toast from 'react-hot-toast'
+import postApi from '@/services/api/post/postApi'
 
 type PostCardProps = {
   post: Post
 } & React.HTMLAttributes<HTMLDivElement>
 
 const PostCard = ({ post, className, ...rest }: PostCardProps) => {
+  const authState = useAppSelector((state) => state.auth);
   const [isLiked, setIsLiked] = React.useState<boolean>(post.is_liked || false)
+
+  const handleLikePost = () => {
+    if (!authState.authenticated) {
+      toast.error('You need to be logged in to like a post.')
+      return;  
+    }
+
+    setIsLiked(!isLiked);
+    postApi.likePost(post.id)
+    post.likes_count = isLiked ? post.likes_count - 1 : post.likes_count + 1;
+  }
+
   return (
     <Card className={cn('rounded-xl py-4', className)} {...rest}>
       <div className='flex items-center gap-2 px-4'>
@@ -70,7 +86,7 @@ const PostCard = ({ post, className, ...rest }: PostCardProps) => {
         </div>
         <div className='px-4 py-2'>
           <div className='mt-1 -ml-1.5 flex items-center gap-1'>
-            <Button variant="ghost" size="icon" className='cursor-pointer' onClick={() => setIsLiked(!isLiked)}>
+            <Button variant="ghost" size="icon" className='cursor-pointer' onClick={handleLikePost}>
               <Heart className={`!size-6 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
             </Button>
             <Button variant="ghost" size="icon" className='cursor-pointer'>
