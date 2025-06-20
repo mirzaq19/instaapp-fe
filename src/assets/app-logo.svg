@@ -1,0 +1,14 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="120" width="120" height="120" rx="10" transform="rotate(-90 0 120)" fill="#1A1C2B"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M60.0231 84.4437L76.8177 101.077L84.6231 93.3465L67.8285 76.7133L84.6231 60.0802L67.8286 43.4472L84.6231 26.8141L76.8177 19.0837L60.0232 35.7168L43.2286 19.0836L35.4232 26.814L52.2178 43.4472L35.4233 60.0803L52.2177 76.7133L35.4232 93.3464L43.2286 101.077L60.0231 84.4437ZM60.0231 68.9829L69.0122 60.0802L60.0232 51.1776L51.0341 60.0803L60.0231 68.9829Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M70.0402 101.077L60.0297 91.1626L50.0193 101.077L50.0193 101.077H54.5464L54.5464 101.077L60.0297 95.6462L65.513 101.077L65.513 101.077L70.0402 101.077Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M35.4233 86.6209L45.4337 76.7067L35.4233 66.7925V71.2761L40.9066 76.7067L35.4233 82.1373V86.6209Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M35.4231 53.3609L35.4231 53.3609L45.4336 43.4467L35.4231 33.5325L35.4231 33.5325V38.0161L40.9064 43.4467L35.4231 48.8773V53.3609Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M50.0194 19.0767L60.0297 28.9908L70.04 19.0767H65.5129L60.0297 24.5072L54.5465 19.0767H50.0194Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M84.6168 66.7925L84.6168 66.7925L74.6064 76.7067L84.6168 86.621L84.6168 86.6209V82.1372L84.6167 82.1373L79.1334 76.7067L84.6167 71.2761L84.6168 71.2763V66.7925Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M84.6166 33.5329L74.6063 43.4471L84.6166 53.3612V48.8776L79.1334 43.4471L84.6166 38.0165V33.5329Z" fill="white"/>
+<rect x="57" y="95" width="6" height="25" fill="white"/>
+<rect x="57" width="6" height="25" fill="white"/>
+<rect y="63" width="6" height="40" transform="rotate(-90 0 63)" fill="white"/>
+<rect x="80" y="63" width="6" height="40" transform="rotate(-90 80 63)" fill="white"/>
+</svg>

@@ -117,4 +117,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .min-h-main {
+    min-height: calc(100vh - 72px);
+  }
 }
