@@ -3,6 +3,7 @@ import Navbar from '@/components/layout/Navbar';
 import PreloadProvider from '@/components/providers/PreloadProvider';
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
+import PostDetail from '@/pages/PostDetail';
 import Register from '@/pages/Register'
 import PublicRoute from '@/routes/PublicRoute';
 import { Toaster } from 'react-hot-toast';
@@ -19,6 +20,9 @@ function App() {
             <Route element={<PublicRoute restricted={true} />}>
               <Route path='login' element={<Login />} />
               <Route path='register' element={<Register />} />
+            </Route>
+            <Route path='posts' element={<PublicRoute restricted={false} />}>
+              <Route path=':postId' element={<PostDetail />} />
             </Route>
           </Routes>
           <Toaster />

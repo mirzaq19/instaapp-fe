@@ -10,3 +10,9 @@ export type GetPostsPagination = {
 };
 
 export type ApiGetPostsPaginationResponse = BaseApiResponse<GetPostsPagination>;
+
+export type GetPost = {
+  post: Post;
+};
+
+export type ApiGetPostResponse = BaseApiResponse<GetPost>;

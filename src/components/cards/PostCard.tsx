@@ -21,6 +21,7 @@ import React from 'react'
 import { useAppSelector } from '@/app/hooks'
 import toast from 'react-hot-toast'
 import postApi from '@/services/api/post/postApi'
+import { Link } from 'react-router'
 
 type PostCardProps = {
   post: Post
@@ -33,7 +34,7 @@ const PostCard = ({ post, className, ...rest }: PostCardProps) => {
   const handleLikePost = () => {
     if (!authState.authenticated) {
       toast.error('You need to be logged in to like a post.')
-      return;  
+      return;
     }
 
     setIsLiked(!isLiked);
@@ -89,9 +90,11 @@ const PostCard = ({ post, className, ...rest }: PostCardProps) => {
             <Button variant="ghost" size="icon" className='cursor-pointer' onClick={handleLikePost}>
               <Heart className={`!size-6 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
             </Button>
-            <Button variant="ghost" size="icon" className='cursor-pointer'>
-              <MessageCircle className="!size-6" />
-            </Button>
+            <Link to={`/posts/${post.id}`}>
+              <Button variant="ghost" size="icon" className='cursor-pointer'>
+                <MessageCircle className="!size-6" />
+              </Button>
+            </Link>
             <Button variant="ghost" size="icon" className='cursor-pointer'>
               <Send className="!size-6" />
             </Button>
