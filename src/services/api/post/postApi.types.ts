@@ -16,3 +16,14 @@ export type GetPost = {
 };
 
 export type ApiGetPostResponse = BaseApiResponse<GetPost>;
+
+export type AddPostRequest = {
+  content: string;
+  images: File[];
+};
+
+export type AddPost = {
+  post_id: number;
+};
+
+export type ApiAddPostResponse = BaseApiResponse<AddPost>;

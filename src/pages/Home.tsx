@@ -7,6 +7,7 @@ import type { BasePagination } from "@/services/api/api.types"
 import postApi from "@/services/api/post/postApi"
 import type { Pagination } from "@/types/pagination.types"
 import React from "react"
+import { Link } from "react-router"
 
 const Home = () => {
   const { authenticated } = useAppSelector((state) => state.auth)
@@ -68,7 +69,7 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-main max-w-xl mx-auto py-8">
+    <div className="min-h-main max-w-xl mx-auto py-8 px-4">
       {loading.initial && (
         // skeleton loading state
         <div className="space-y-4">
@@ -91,6 +92,17 @@ const Home = () => {
           ))}
         </div>
       )}
+
+      {!loading.initial && authenticated && (
+        <Link to="/new-post">
+          <Button
+            className="cursor-pointer fixed right-4 bottom-12 transition-all duration-200 hover:bottom-11 md:mb-4 md:static z-10 !py-2 border border-gray-300"
+          >
+            Create a new Post
+          </Button>
+        </Link>
+      )}
+
       {!loading.initial && posts.length > 0 && (
         <>
           <div className="grid grid-cols-1 gap-4">
