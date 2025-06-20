@@ -55,7 +55,7 @@ const PostCard = ({ post, onDeletePost, className, ...rest }: PostCardProps) => 
           <CardTitle className='text-lg font-semibold'>{post.user.name}</CardTitle>
           <CardDescription className='text-sm text-muted-foreground'>@{post.user.username}</CardDescription>
           <CardAction>
-            <PostCardDropdown postId={post.id} onDeletePost={onDeletePost} />
+            {authState.user?.id === post.user.id && <PostCardDropdown postId={post.id} onDeletePost={onDeletePost} />}
           </CardAction>
         </CardHeader>
       </div>
