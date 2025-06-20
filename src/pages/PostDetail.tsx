@@ -9,9 +9,10 @@ import commentApi from '@/services/api/comment/commentApi'
 import postApi from '@/services/api/post/postApi'
 import React from 'react'
 import toast from 'react-hot-toast'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 
 const PostDetail = () => {
+  const navigate = useNavigate()
   const { authenticated, user } = useAppSelector((state) => state.auth);
   const { postId } = useParams()
   const [loading, setLoading] = React.useState({
@@ -46,6 +47,24 @@ const PostDetail = () => {
         toast.error(error.message || 'Failed to add comment')
       })
   };
+
+  const handleDeletePost = (postId: number) => {
+    toast.promise(
+      postApi.deletePost(postId),
+      {
+        loading: 'Deleting post...',
+        success: 'Post deleted successfully',
+        error: (error) => {
+          console.error('Failed to delete post:', error)
+          return 'Failed to delete post'
+        },
+      }
+    ).then(() => {
+      navigate('/')
+    }).catch((error) => {
+      console.error('Error deleting post:', error)
+    })
+  }
 
   React.useEffect(() => {
     // Fetch post details using postId
@@ -103,7 +122,7 @@ const PostDetail = () => {
 
       {!loading.initial && post && (
         <>
-          <PostCard post={post} />
+          <PostCard post={post} onDeletePost={handleDeletePost} />
 
           {!authenticated && (
             <div className="bg-white p-4 rounded-lg mt-4">

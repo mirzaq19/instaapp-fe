@@ -7,6 +7,7 @@ import type { BasePagination } from "@/services/api/api.types"
 import postApi from "@/services/api/post/postApi"
 import type { Pagination } from "@/types/pagination.types"
 import React from "react"
+import toast from "react-hot-toast"
 import { Link } from "react-router"
 
 const Home = () => {
@@ -45,6 +46,30 @@ const Home = () => {
       perPage: postPagination.meta.per_page,
     }))
     setCanLoadMore(postPagination.meta.current_page < postPagination.meta.last_page)
+  }
+
+  const handleDeletePost = (postId: number) => {
+    toast.promise(
+      postApi.deletePost(postId),
+      {
+        loading: "Deleting post...",
+        success: "Post deleted successfully",
+        error: (error) => {
+          console.error("Failed to delete post:", error)
+          return "Failed to delete post"
+        },
+      }
+    ).then(async () => {
+      setPosts([])
+      setCanLoadMore(true)
+      setLoading((prev) => ({ ...prev, initial: true }))
+      const initialPosts = await fetchPosts()
+      if (initialPosts) handleSetPosts(initialPosts, 'add')
+      setLoading((prev) => ({ ...prev, initial: false }))
+    }).catch((error) => {
+      console.error("Error deleting post:", error)
+      toast.error("Failed to delete post")
+    })
   }
 
   React.useEffect(() => {
@@ -107,7 +132,7 @@ const Home = () => {
         <>
           <div className="grid grid-cols-1 gap-4">
             {posts.map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post.id} post={post} onDeletePost={handleDeletePost} />
             ))}
           </div>
 

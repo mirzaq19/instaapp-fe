@@ -22,12 +22,14 @@ import { useAppSelector } from '@/app/hooks'
 import toast from 'react-hot-toast'
 import postApi from '@/services/api/post/postApi'
 import { Link } from 'react-router'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 type PostCardProps = {
   post: Post
+  onDeletePost: (postId: number) => void
 } & React.HTMLAttributes<HTMLDivElement>
 
-const PostCard = ({ post, className, ...rest }: PostCardProps) => {
+const PostCard = ({ post, onDeletePost, className, ...rest }: PostCardProps) => {
   const authState = useAppSelector((state) => state.auth);
   const [isLiked, setIsLiked] = React.useState<boolean>(post.is_liked || false)
 
@@ -53,7 +55,7 @@ const PostCard = ({ post, className, ...rest }: PostCardProps) => {
           <CardTitle className='text-lg font-semibold'>{post.user.name}</CardTitle>
           <CardDescription className='text-sm text-muted-foreground'>@{post.user.username}</CardDescription>
           <CardAction>
-            <PostCardDropdown />
+            <PostCardDropdown postId={post.id} onDeletePost={onDeletePost} />
           </CardAction>
         </CardHeader>
       </div>
@@ -111,20 +113,51 @@ const PostCard = ({ post, className, ...rest }: PostCardProps) => {
 
 export default PostCard
 
-const PostCardDropdown = () => {
+type PostCardDropdownProps = {
+  postId: number;
+  onDeletePost: (postId: number) => void;
+}
+
+const PostCardDropdown = ({ postId, onDeletePost }: PostCardDropdownProps) => {
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant='outline' size='icon'>
-          <EllipsisVertical className='h-4 w-4' />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
-        <DropdownMenuItem className="cursor-pointer focus:bg-red-50 focus:text-destructive group">
-          <Trash className='group-[focus]:text-destructive' />
-          Delete Post
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button variant='outline' size='icon'>
+            <EllipsisVertical className='h-4 w-4' />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end'>
+          <DropdownMenuItem className="cursor-pointer focus:bg-red-50 focus:text-destructive group" onSelect={() => setIsDialogOpen(true)}>
+            <Trash className='group-[focus]:text-destructive' />
+            Delete Post
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Logout</DialogTitle>
+            <DialogDescription>
+              Are you want to logout on SSO too?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-y-2">
+            <DialogClose asChild>
+              <Button size="sm" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button size="sm" onClick={() => onDeletePost(postId)} className="bg-red-500 text-white hover:bg-red-600">
+              <Trash />
+              Delete Post
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+
   )
 }

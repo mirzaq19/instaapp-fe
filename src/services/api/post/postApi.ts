@@ -72,9 +72,24 @@ const addPost = async (data: AddPostRequest) => {
   return responseJson.data;
 };
 
+const deletePost = async (postId: number) => {
+  const response = await apiFetch(`/posts/${postId}`, {
+    method: "DELETE",
+  });
+  const responseJson = (await response.json()) as BaseApiResponse;
+
+  if (!response.ok || !responseJson.success) {
+    const message = translateApiError(responseJson) || "Failed to delete post";
+    throw new ApplicationError(message);
+  }
+
+  return true;
+};
+
 export default {
   getPosts,
   getPost,
   likePost,
   addPost,
+  deletePost,
 };
