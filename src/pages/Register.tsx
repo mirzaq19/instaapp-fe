@@ -1,4 +1,7 @@
 import RegisterForm from "@/components/forms/RegisterForm";
+import authApi from "@/services/api/auth/authApi";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 type RegisterData = {
   name: string;
@@ -8,7 +11,8 @@ type RegisterData = {
   passwordConfirmation: string;
 }
 
-function Register() {
+const Register = () => {
+  const navigate = useNavigate();
   const handleRegister = async ({
     name,
     email,
@@ -16,7 +20,27 @@ function Register() {
     password,
     passwordConfirmation
   }: RegisterData) => {
-    console.log('Registering user:', { name, email, username, password, passwordConfirmation });
+    await toast
+      .promise(authApi.register({
+        name,
+        email,
+        username,
+        password,
+        password_confirmation: passwordConfirmation
+      }), {
+        loading: 'Registering...',
+        success: 'Registration successful!',
+        error: (error) => {
+          console.error('Registration error:', error);
+          return error instanceof Error ? error.message : 'Registration failed';
+        }
+      })
+      .then(() => {
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
   };
 
   return (
